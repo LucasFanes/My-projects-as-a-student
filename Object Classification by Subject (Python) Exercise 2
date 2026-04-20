@@ -1,0 +1,88 @@
+lista = {}
+listac = [] # This list stores tuples (nome, valor), not Ingressos objects
+class Ingressos:
+    def __init__(self, nome, valor):
+        self.nome = nome
+        self.valor = valor
+
+    def exibirValor(self):
+        # Returns the value of the ticket as requested
+        return self.valor
+
+    def __str__(self):
+        # Returns the event name followed by the ticket value
+        return f"{self.nome} - R$ {self.valor:.2f}"
+
+while True:
+  print("Bem vindo ao site")
+  while True:
+    resposta1 = input("Deseja setar um ingresso? (S/N)").lower()
+    if resposta1 == "n":
+      break
+    elif resposta1 == "s":
+      nome = input("Qual o nome do evento? ").lower()
+      valor = float(input("Qual o valor do ingresso? "))
+      if valor < 0:
+          print("Valor inválido!")
+      else:
+          lista[nome] = valor # Storing in dictionary
+          listac.append((nome, valor)) # Storing in list of tuples
+          print("Ingresso cadastrado com sucesso!")
+          resposta2 = input("Deseja cadastrar outro ingresso? (S/N)").lower()
+          if resposta2 == "n":
+            break
+          elif resposta2 =="s":
+            pass
+    else:
+      print("Resposta inválida!")
+  if resposta1 == "n":
+    break
+
+  while True:
+    resposta3 = input("Deseja procurar um ingresso? (S/N)").lower()
+    if resposta3 == "n":
+      break # Exit the 'procurar ingresso' loop
+    if resposta3 == "s":
+      if not lista: # Check if the dictionary is empty
+          print("Nenhum ingresso cadastrado ainda.")
+          continue # Go back to asking "Deseja procurar um ingresso?"
+
+      print("---Lista de ingressos---")
+      # Convert dictionary items to a list to easily access by index for user selection
+      ingressos_disponiveis = list(lista.items())
+      for i, (nome_evento, valor_ingresso) in enumerate(ingressos_disponiveis):
+            print(f"[{i}]: {nome_evento} - R$ {valor_ingresso:.2f}")
+
+      while True: # Loop for selecting and testing an ingress from the displayed list
+          try:
+              escolha_indice_str = input("Selecione o número do ingresso para ver detalhes (ou 's' para sair): ").lower()
+              if escolha_indice_str == 's':
+                  break # Exit the inner selection loop, go back to asking "Deseja procurar um ingresso?"
+
+              escolha_indice = int(escolha_indice_str)
+
+              if 0 <= escolha_indice < len(ingressos_disponiveis):
+                  nome_selecionado, valor_selecionado = ingressos_disponiveis[escolha_indice]
+                  print(f"\n--- Detalhes do ingresso selecionado (Índice {escolha_indice}) ---")
+
+                  # Create an instance of Ingressos for the selected ticket
+                  ingresso_selecionado = Ingressos(nome_selecionado, valor_selecionado)
+
+                  # Usando exibirValor()
+                  valor_retornado = ingresso_selecionado.exibirValor()
+                  print(f"O valor retornado por exibirValor() é: R$ {valor_retornado:.2f}")
+
+                  # Usando __str__() implicitamente (ao imprimir o objeto)
+                  print(f"Detalhes completos (via __str__): {ingresso_selecionado}")
+
+                  # Acessando atributos diretamente
+                  print(f"Nome do evento: {ingresso_selecionado.nome}")
+                  print(f"Valor do ingresso: R$ {ingresso_selecionado.valor:.2f}")
+
+              else:
+                  print("Índice inválido. Por favor, tente novamente.")
+          except ValueError:
+              print("Entrada inválida. Por favor, digite um número ou 's'.")
+      break # Exit the 'procurar ingresso' loop after user has viewed details or exited selection
+
+# The static test block from the previous version has been removed as it's now integrated interactively.
