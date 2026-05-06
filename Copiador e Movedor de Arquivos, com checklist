@@ -1,0 +1,20 @@
+#Copiador de Arquivos e Movedor
+#Código escrito por Lucas Dalla Rosa Fanes - 05/05/2026
+from pathlib import Path
+import shutil
+import os
+XQueijo = Path(__file__).resolve().parent #Pega o caminho do arquivo
+XTudo = XQueijo.glob('*') #Pega tudo que tem dentro do caminho do arquivo
+for i in XTudo:
+    print(i)
+    for root, dirs, files in os.walk(Path(r'C:/SCRIPTS/.venv/Scripts')): #Pega o caminho da pasta Abobin
+        if i.is_file(): #Verifica é um arquivo
+            for file in files:
+                if i.name == file: #Verifica se o nome do arquivo é igual ao nome do arquivo que queremos copiar
+                    print(f"O arquivo {i.name} já existe na pasta de destino.")
+                    break
+                else:
+                    print(f"O arquivo {i.name} não existe na pasta de destino. Copiando...")
+                    shutil.copy(i, Path(r'C:/SCRIPTS/.venv/Scripts'), ) #
+            print(f"Copiando {i} {files}...")
+        #shutil.copy(i, XQueijo /Path(r'C:/SCRIPTS/.venv/Scripts')).if_exist #Copia tudo para a pasta Abobin
